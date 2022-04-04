@@ -92,6 +92,7 @@ DATABASES = {
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
             'host': os.getenv('MONGO_CONNECTION_STRING'),
+            'authMechanism': 'SCRAM-SHA-1'
         }
     }
 }
