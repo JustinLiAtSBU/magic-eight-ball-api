@@ -15,4 +15,10 @@ class MotionPictureSerializer(serializers.ModelSerializer):
             'year',
             'runtime',
             'genres',
+            'director',
+            'actors',
+            'plot',
+            'country',
+            'awards',
+            'poster',
         )

@@ -11,6 +11,12 @@ class MotionPicture(models.Model):
     year = models.IntegerField()
     runtime = models.IntegerField()
     genres = models.TextField()
+    director = models.TextField()
+    actors = models.TextField()
+    plot = models.TextField()
+    country = models.TextField()
+    awards = models.TextField()
+    poster = models.TextField()
     
     objects = MongoDBManager()
     
