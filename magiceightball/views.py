@@ -1,5 +1,6 @@
-from random import randint
 import re
+import pycountry
+from random import randint
 from distutils.command.build import build
 from magiceightball.query_params import QUERY_PARAMS
 from django.db.models import Q
@@ -102,14 +103,20 @@ def random_tv_show(request):
 def build_query(request):
     query_result = Q()
     for key, value in request.GET.items():
-        field = re.findall('[A-Z][^A-Z]*', key)
-        if field:
-            field = field[0].lower()
-            condition = re.match('[a-z]+', key)[0]
-            if field == 'rating':
+        min_field = re.findall('[A-Z][^A-Z]*', key)
+        if min_field:
+            min_field = min_field[0].lower()
+            if min_field == 'rating':
                 query_result &= Q(rating__gte=value)
-            elif field == 'year':
+            elif min_field == 'year':
                 query_result &= Q(year__gte=value)
-            elif field == 'runtime':
+            elif min_field == 'runtime':
                 query_result &= Q(runtime__gte=value)
+        else:
+            if key == 'country':
+                country = pycountry.countries.get(alpha_2=value)
+                country_name = country.name
+                if hasattr(country, 'common_name'):
+                    country_name = country.common_name
+                query_result &= Q(country=country_name)
     return query_result
