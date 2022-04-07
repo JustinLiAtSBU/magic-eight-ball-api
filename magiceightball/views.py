@@ -67,8 +67,6 @@ def movie_list(request):
 def random_movie(request):
     size = int(request.GET.get('size', 0))
     movies = MotionPicture.objects.filter(build_query(request) & Q(type='movie')).order_by('-rating')
-    if size != 0:
-        movies = movies[:size]
     size = size if size < len(movies) and size > 0 else len(movies)
     movie = movies[randint(0, size - 1)]
     movie_serializer = MotionPictureSerializer(movie)
