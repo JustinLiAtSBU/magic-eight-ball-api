@@ -69,7 +69,7 @@ def random_movie(request):
     movies = MotionPicture.objects.filter(build_query(request) & Q(type='movie')).order_by('-rating')
     if size != 0:
         movies = movies[:size]
-    size = size if size < len(movies) else len(movies)
+    size = size if size < len(movies) and size > 0 else len(movies)
     movie = movies[randint(0, size - 1)]
     movie_serializer = MotionPictureSerializer(movie)
     return JsonResponse(movie_serializer.data, safe=False)
@@ -92,9 +92,7 @@ def tv_show_list(request):
 def random_tv_show(request):
     size = int(request.GET.get('size', 0))
     tv_shows = MotionPicture.objects.filter(build_query(request) & Q(type='tvSeries')).order_by('-rating')
-    if size != 0:
-        tv_shows = tv_shows[:size]
-    size = size if size < len(tv_shows) else len(tv_shows)
+    size = size if size < len(tv_shows) and size > 0 else len(tv_shows)
     tv_show = tv_shows[randint(0, size - 1)]
     tv_show_serializer = MotionPictureSerializer(tv_show)
     return JsonResponse(tv_show_serializer.data, safe=False)
